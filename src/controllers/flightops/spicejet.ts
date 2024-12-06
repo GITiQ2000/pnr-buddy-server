@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { spicejetPnrRetrieveUrl, spicejetTokenUrl } from "../../constants";
+import { environment, spicejetPnrRetrieveUrl, spicejetTokenUrl } from "../../constants";
 import axios, { AxiosResponse } from "axios";
 import * as xlsx from "xlsx";
 import moment from "moment-timezone";
@@ -110,7 +110,7 @@ export const getSpicejetStatus = async (req: Request, res: Response) => {
 
                 date.minutes(roundedMinutes);
 
-                const OldDep = date.format("HH:mm A");
+                const OldDep = environment === "development" ? date.format("HH:mm A") : moment(date).subtract(5,"hours").subtract(30,"minutes");;
 
                 ////arrival b-----------------------
 
@@ -125,7 +125,7 @@ export const getSpicejetStatus = async (req: Request, res: Response) => {
                   : (roundedMinutesb = minuteb + 1);
 
                 dateb.minutes(roundedMinutesb);
-                const OldArr = dateb.format("HH:mm A");
+                const OldArr = environment === "development" ? dateb.format("HH:mm A") : moment(dateb).subtract(5,"hours").subtract(30,"minutes");;
 
                 const OldDate = moment(record.TravelDate).format("YYYY-MM-DD"); //Date
 

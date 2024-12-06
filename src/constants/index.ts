@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config(); // Load environment variables from .env file
 
+const environment = process.env.NODE_ENVIRONMENT;
 
 const PORT = process.env.PORT || "";
 
@@ -16,6 +17,7 @@ const spicejetPnrRetrieveUrl = process.env.SPICEJET_PNR_RETRIEVE_URL || "";
 
 
 export {
+    environment,
     PORT,
     akasaPnrRetrieveUrl,
     akasaTokenUrl,

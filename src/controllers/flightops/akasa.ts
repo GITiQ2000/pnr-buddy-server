@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { akasaPnrRetrieveUrl, akasaTokenUrl } from "../../constants";
+import { akasaPnrRetrieveUrl, akasaTokenUrl, environment } from "../../constants";
 import moment from "moment-timezone";
 import https from "https";
 import xlsx from "xlsx";
@@ -67,7 +67,7 @@ export const getAkasaStatus = async (req:Request, res:Response) => {
     try {
          const data = await makeApiCall(10);
          const myToken = data?.data?.token;
-         const header = `Bearer ${myToken}`;
+         const header = myToken;
 
          const fullName = req.file?.filename;
          if (!fullName) {
@@ -166,7 +166,7 @@ export const getAkasaStatus = async (req:Request, res:Response) => {
                        ? (roundedMinutes = minute)
                        : (roundedMinutes = minute + 1);
                      date.minutes(roundedMinutes);
-                     const OldDep = date.format("HH:mm A");
+                     const OldDep = environment === "development" ? date.format("HH:mm A") : moment(date).subtract(5,"hours").subtract(30,"minutes");
                      const ArrinputTime = record.Arr;
                      const dateb = moment.utc(ArrinputTime).tz("Asia/Kolkata");
                      const minuteb = dateb.minutes();
@@ -176,7 +176,7 @@ export const getAkasaStatus = async (req:Request, res:Response) => {
                        ? (roundedMinutesb = minuteb)
                        : (roundedMinutesb = minuteb + 1);
                      dateb.minutes(roundedMinutesb);
-                     const OldArr = dateb.format("HH:mm A");
+                     const OldArr = environment === "development" ? dateb.format("HH:mm A") : moment(dateb).subtract(5,"hours").subtract(30,"minutes");;
 
                      const OldDate = moment(record.TravelDate).format(
                        "YYYY-MM-DD"

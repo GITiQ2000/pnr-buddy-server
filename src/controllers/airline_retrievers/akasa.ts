@@ -60,7 +60,7 @@ export const getAkasaData = async (req: Request, res: Response) => {
      const pnrs: string[] = req.body;
      const data = await makeApiCall(10); // Fetch token once
      const myToken = data.data.token;
-     const header = `Bearer ${myToken}`;
+     const header = myToken;
 
      const results: string[] = [];
      const errors: string[] = [];
